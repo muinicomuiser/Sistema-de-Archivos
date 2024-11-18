@@ -1,0 +1,11 @@
+Pasos
+    Crear base de datos: 
+        MySQL 
+        tabla: documentos
+        Crear scripts
+    Armar docker compose:
+        Node
+        Flyway
+        MySQL
+    Estudiar
+    
