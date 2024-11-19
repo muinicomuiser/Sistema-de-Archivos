@@ -1,39 +1,35 @@
 services:
-  database-prod:
+  db:
     image: mysql:8.0
-    container_name: database-prod
+    container_name: db
     volumes:
-      - ./db/data_prod:/var/lib/mysql
+      - ./db/data_dev:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=clave123
-      - MYSQL_DATABASE=plantai_db
-      ##- MYSQL_HOST=database-prod
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
     ports:
-      - "3312:3306" # Exponiendo el puerto 3306 al host
+      - "3312:${DB_PORT}"
+
   flyway:
     image: flyway/flyway:10.20.1-alpine
+    depends_on:
+      - db
     volumes:
       - ./sql:/flyway/sql
-    command: -url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE} -user=${DB_USERNAME} -password=${DB_PASSWORD} -connectRetries=60 migrate
+    command: [ "-url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false", "-user=${DB_USERNAME}", "-password=${DB_PASSWORD}", "-connectRetries=60", "migrate" ]
 
-  cotiledon-prod:
-    image: nicolasf1/cotiledonapp:1.9.1
-    depends_on:
-      - database-prod
+  api:
+    image: "node:${VERSION_NODE}"
+    command: "yarn start:dev"
+    working_dir: /home/node/nest
     environment:
-      - AMBIENTE=production
-      - DB_HOST=database-prod
-      - DB_PORT=3306
-      - DB_USERNAME=root
-      - DB_PASSWORD=clave123
-      - DB_DATABASE=plantai_db
+      - PUERTO_API=${PORT_API}
+      - HOST_DB=${DB_HOST}
+      - PUERTO_DB=${DB_PORT}
+      - USUARIO_DB=${DB_USERNAME}
+      - CONTRASENA_DB=${DB_PASSWORD}
+      - NOMBRE_DB=${DB_DATABASE}
     ports:
-      - "8080:8080"
-  frontend-prod:
-    image: nicolasf1/plantaiapp:1.0.1
-    depends_on:
-      - cotiledon-prod
-    environment:
-      - VITE_URL_ENDPOINT_BACKEND=http://cotiledon-prod:8080
-    ports:
-      - "5173:80"
+      - "3000:${PORT_API}"
+    volumes:
+      - .:/home/node/nest
