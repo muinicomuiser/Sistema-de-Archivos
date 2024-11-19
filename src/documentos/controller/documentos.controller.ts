@@ -11,6 +11,13 @@ import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
 export class DocumentosController {
     constructor(private readonly documentosService: DocumentosService) { }
 
+
+    /**Validar:
+     * Mimetype
+     * Peso
+     * Rut
+     * nombre not empty
+     */
     @ApiConsumes('multipart/form-data')
     @ApiExtraModels(FormularioFileDto)  /**Para configurar el formulario de carga de archivos en swagger */
     @ApiBody({

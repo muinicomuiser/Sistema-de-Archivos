@@ -17,7 +17,7 @@ export class DocumentosService {
         const ruta = this.rutaFecha(fecha);
         const registrosDocumentos: Documento[] = []
         await FileSystem.mkdir(`./${process.env.DIR_ARCHIVOS}/${ruta}`, { recursive: true })
-        for (let file of files) {
+        await Promise.all(files.map(async file => {
             const extension: string = file.mimetype.split('/')[1];
             const nuevoUUID: string = uuidv4()
             await FileSystem.writeFile(
@@ -31,7 +31,7 @@ export class DocumentosService {
                 .setRutaServidor(`/${process.env.RUTA_ESTATICOS_SERVER}/${ruta}/${nuevoUUID}.${extension}`)
                 .setFechaHoraCarga(fecha)
             registrosDocumentos.push(nuevoDocumento)
-        }
+        }))
         const registrados: Documento[] = await this.documentoRepository.save(registrosDocumentos)
         return DocumentoMapper.entitiesToDtos(registrados)
     }

@@ -20,7 +20,7 @@ Pasos
     Validar datos
         Considerar pipe para validar mimetypes jpeg y pdf
         Voy a darle la extensión .pdf y .jpeg tomando el segmento del mimetype
-    Documentar Swagger
+    Documentar Swagger (gets dto)
     Try-catchs
     Errores
     
