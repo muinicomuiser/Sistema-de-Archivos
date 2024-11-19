@@ -1,6 +1,6 @@
 services:
   db:
-    image: mysql:8.0
+    image: mysql:${VERSION_MYSQL}
     container_name: db
     volumes:
       - ./db/data_dev:/var/lib/mysql
@@ -11,7 +11,7 @@ services:
       - "3312:${DB_PORT}"
 
   flyway:
-    image: flyway/flyway:10.20.1-alpine
+    image: flyway/flyway:${VERSION_FLYWAY}
     depends_on:
       - db
     volumes:
@@ -23,12 +23,16 @@ services:
     command: "yarn start:dev"
     working_dir: /home/node/nest
     environment:
+      - AMBIENTE=${AMBIENTE}
       - PUERTO_API=${PORT_API}
       - HOST_DB=${DB_HOST}
       - PUERTO_DB=${DB_PORT}
       - USUARIO_DB=${DB_USERNAME}
       - CONTRASENA_DB=${DB_PASSWORD}
       - NOMBRE_DB=${DB_DATABASE}
+      - DIR_ARCHIVOS=${DIR_ARCHIVOS}
+      - RUTA_ESTATICOS_SERVER=${RUTA_ESTATICOS_SERVER}
+
     ports:
       - "3000:${PORT_API}"
     volumes:

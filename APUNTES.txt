@@ -6,14 +6,21 @@ Uso:
 
 Pasos
     Crear base de datos: 
-        MySQL 
-        tabla: documentos
-        Crear scripts
+        + MySQL 
+        + tabla: documentos
+        + Crear scripts
     Armar docker compose:
-        Node
-        Flyway
-        MySQL
+        + Node
+        + Flyway
+        + MySQL
+    Cargar binarios:
+        Instalé @types/multer
+        Instalé uuid
     Estudiar
     Validar datos
+        Considerar pipe para validar mimetypes jpeg y pdf
+        Voy a darle la extensión .pdf y .jpeg tomando el segmento del mimetype
     Documentar Swagger
+    Try-catchs
+    Errores
     
