@@ -4,12 +4,15 @@ import { Documento } from 'src/orm/entity/documento.entity';
 import { Repository } from 'typeorm';
 import { promises as FileSystem } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import { GetDocumentosUsuarioDto } from '../dto/get.documentos.usuario.dto';
+import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
+import { DocumentoMapper } from '../mapper/documento.mapper';
 @Injectable()
 export class DocumentosService {
 
     constructor(@InjectRepository(Documento) private readonly documentoRepository: Repository<Documento>) { }
 
-    async cargarDocumento(rut: string, files: Express.Multer.File[]) {
+    async cargarDocumento(rut: string, files: Express.Multer.File[]): Promise<GetRegistroDocumentoDto[]> {
         const fecha: Date = new Date();
         const ruta = this.rutaFecha(fecha);
         const registrosDocumentos: Documento[] = []
@@ -29,7 +32,18 @@ export class DocumentosService {
                 .setFechaHoraCarga(fecha)
             registrosDocumentos.push(nuevoDocumento)
         }
-        return await this.documentoRepository.save(registrosDocumentos)
+        const registrados: Documento[] = await this.documentoRepository.save(registrosDocumentos)
+        return DocumentoMapper.entitiesToDtos(registrados)
+    }
+
+    async obtenerRegistrosDocumentos(rutUsuario: string): Promise<GetDocumentosUsuarioDto> {
+        const registros: Documento[] = await this.documentoRepository.find({
+            where: {
+                rut: rutUsuario
+            }
+        })
+        const registrosDto: GetRegistroDocumentoDto[] = DocumentoMapper.entitiesToDtos(registros)
+        return new GetDocumentosUsuarioDto(rutUsuario, registrosDto)
     }
 
     private rutaFecha(fecha: Date): string {
