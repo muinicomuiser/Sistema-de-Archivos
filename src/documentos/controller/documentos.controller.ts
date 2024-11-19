@@ -3,6 +3,8 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiExtraModels, ApiTags, getSchemaPath } from '@nestjs/swagger';
 import { FormularioFileDto } from '../dto/formulario.file.dto';
 import { DocumentosService } from '../service/documentos.service';
+import { GetDocumentosUsuarioDto } from '../dto/get.documentos.usuario.dto';
+import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
 
 @ApiTags('Documentos')
 @Controller('documentos')
@@ -23,7 +25,7 @@ export class DocumentosController {
     async cargarDocumentos(
         @Param('rut_usuario') rutUsuario: string,
         @UploadedFiles() files: Express.Multer.File[]
-    ) {
+    ): Promise<GetRegistroDocumentoDto[]> {
         const documentoCargado = await this.documentosService.cargarDocumento(rutUsuario, files)
         // console.log(files)
         return documentoCargado
@@ -32,8 +34,11 @@ export class DocumentosController {
 
 
     @Get(':rut_usuario')
-    infoArchivosUsuario(@Param('rut_usuario') rutUsuario: string) {
-        return 'Hola'
+    async infoArchivosUsuario(
+        @Param('rut_usuario') rutUsuario: string
+    ): Promise<GetDocumentosUsuarioDto> {
+        const infoDocumentos: GetDocumentosUsuarioDto = await this.documentosService.obtenerRegistrosDocumentos(rutUsuario);
+        return infoDocumentos
     }
 
 
