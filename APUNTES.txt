@@ -1,0 +1,19 @@
+Se asume que:
+    - Se usará método binario
+
+Uso:
+    - Para trabajar en local, llenar la variable de entorno AMBIENTE=desarrollo
+
+Pasos
+    Crear base de datos: 
+        MySQL 
+        tabla: documentos
+        Crear scripts
+    Armar docker compose:
+        Node
+        Flyway
+        MySQL
+    Estudiar
+    Validar datos
+    Documentar Swagger
+    

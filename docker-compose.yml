@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: db
+    volumes:
+      - ./db/data_dev:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+    ports:
+      - "3312:${DB_PORT}"
+
+  flyway:
+    image: flyway/flyway:10.20.1-alpine
+    depends_on:
+      - db
+    volumes:
+      - ./sql:/flyway/sql
+    command: [ "-url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false", "-user=${DB_USERNAME}", "-password=${DB_PASSWORD}", "-connectRetries=60", "migrate" ]
+
+  api:
+    image: "node:${VERSION_NODE}"
+    command: "yarn start:dev"
+    working_dir: /home/node/nest
+    environment:
+      - PUERTO_API=${PORT_API}
+      - HOST_DB=${DB_HOST}
+      - PUERTO_DB=${DB_PORT}
+      - USUARIO_DB=${DB_USERNAME}
+      - CONTRASENA_DB=${DB_PASSWORD}
+      - NOMBRE_DB=${DB_DATABASE}
+    ports:
+      - "3000:${PORT_API}"
+    volumes:
+      - .:/home/node/nest
