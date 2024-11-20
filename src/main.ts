@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentosModule } from './documentos/documentos.module';
-import { DocumentadorSwagger } from './nico-utils/nico-swagger';
 import { NicoLogs } from './nico-utils/nico-logs';
+import { DocumentadorSwagger } from './nico-utils/nico-swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

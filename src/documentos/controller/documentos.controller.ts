@@ -1,20 +1,20 @@
 import { ParseUUIDPipe } from '@nestjs/common';
 import { Controller, UseInterceptors } from '@nestjs/common/decorators/core';
 import {
-  Post,
-  Param,
-  UploadedFiles,
-  Get,
   Delete,
+  Get,
+  Param,
+  Post,
+  UploadedFiles,
 } from '@nestjs/common/decorators/http';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import {
-  ApiTags,
+  ApiBody,
   ApiConsumes,
   ApiExtraModels,
   ApiOperation,
   ApiResponse,
-  ApiBody,
+  ApiTags,
   getSchemaPath,
 } from '@nestjs/swagger';
 import { FormularioFileDto } from '../dto/formulario.file.dto';
@@ -26,12 +26,14 @@ import { DocumentosService } from '../service/documentos.service';
 @ApiTags('Documentos')
 @Controller('documentos')
 export class DocumentosController {
-  constructor(private readonly documentosService: DocumentosService) {}
+  constructor(private readonly documentosService: DocumentosService) { }
 
+
+  // 1.- CARGAR DOCUMENTOS
   @ApiConsumes('multipart/form-data')
   @ApiExtraModels(
     FormularioFileDto,
-  ) /**Para configurar el formulario de carga de archivos en swagger */
+  )
   @ApiOperation({ summary: 'Cargar documentos a un usuario.' })
   @ApiResponse({
     status: 201,
@@ -60,6 +62,8 @@ export class DocumentosController {
     return documentoCargado;
   }
 
+
+  // 2.- CONSULTAR DOCUMENTOS
   @ApiOperation({
     summary: 'Obtener información de los archivos de un usuario.',
   })
@@ -78,6 +82,8 @@ export class DocumentosController {
     return infoDocumentos;
   }
 
+
+  // 3.- ELIMINAR DOCUMENTOS
   @ApiOperation({ summary: 'Eliminar un documento y su registro.' })
   @ApiResponse({
     status: 200,

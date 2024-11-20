@@ -1,10 +1,14 @@
 Se asume que:
-    - Se usará método binario
+    - Se usará método binario.
+    - La comprobación de la existencia de un rut registrado se haría en una etapa previa, en un servicio previo, 
+        por lo tanto se asume que el usuario existe, y si no tiene registros se debe devolver un arreglo vacío, no un error.
+    - El rut debería ser la clave foránea.
 
 Uso:
     - Para trabajar en local, llenar la variable de entorno AMBIENTE=desarrollo
+    - El proyecto está configurado para porder cargar archivos desde Swagger
 
-Pasos
+Pasos:
     + Crear base de datos: 
         + MySQL 
         + tabla: documentos
@@ -16,12 +20,15 @@ Pasos
     + Cargar binarios:
         Instalé @types/multer
         Instalé uuid
-    + Estudiar
-    Validar datos
+    + Estudiar (ya entendí la materia c:)
+    + Validar datos
         Rut, voy a usar la librería @fdograph/rut-utilities
         Si el uuid no existe, o si no es válido
-    Documentar Swagger (gets dto)
-    Try-catchs
-    Errores
-    Ordenar
-    
+    + Documentar Swagger (gets dto)
+    + Try-catchs
+    + Errores
+    + Ordenar
+
+Librerías extra usadas:
+    - @fdograph/rut-utilities (Para validar y formatear ruts)
+    - uuid (Para crear UUIDs)

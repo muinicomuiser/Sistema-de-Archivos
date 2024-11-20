@@ -15,4 +15,4 @@ import { OrmModule } from './orm/orm.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,19 +1,20 @@
 import {
-  PipeTransform,
   ArgumentMetadata,
   NotFoundException,
+  PipeTransform,
 } from '@nestjs/common';
 import { Injectable } from '@nestjs/common/decorators/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Documento } from 'src/orm/entity/documento.entity';
-import { Repository, Like } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
+/**Valida que exista un documento cuyo nombre coincida con el UUID ingresado. */
 @Injectable()
 export class ValidarDocumentoExistePipe implements PipeTransform {
   constructor(
     @InjectRepository(Documento)
     private readonly documentoRepository: Repository<Documento>,
-  ) {}
+  ) { }
 
   async transform(value: any, metadata: ArgumentMetadata) {
     const existe: boolean = await this.documentoRepository.existsBy({

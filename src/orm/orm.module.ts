@@ -23,4 +23,4 @@ import { Documento } from './entity/documento.entity';
     }),
   ],
 })
-export class OrmModule {}
+export class OrmModule { }

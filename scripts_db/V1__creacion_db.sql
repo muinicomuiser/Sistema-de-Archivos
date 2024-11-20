@@ -11,7 +11,7 @@ use sistema_archivos;
 Create table documentos(
     rut varchar(12) not null,
     nombre_original varchar(255) not null,
-    nombre_asignado varchar(255) primary key not null,
-    ruta_servidor varchar(255) not null,
+    nombre_asignado varchar(255) not null,
+    ruta_servidor varchar(255)  not null,
     fecha_hora timestamp not null
 );

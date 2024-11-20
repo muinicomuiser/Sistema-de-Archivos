@@ -1,15 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class GetRegistroDocumentoDto {
-  @ApiProperty()
+  @ApiProperty({ example: 'archivo.jpg' })
   nombreOriginal: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'formato_uuid.jpg' })
   nombreAsignado: string;
-  @ApiProperty()
+  @ApiProperty({ example: '/estaticos/ruta/formato_uuid.jpg' })
   rutaServidor: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'AAAA-MM-DD HH:MM' })
   fechaHoraCarga: string;
 
+  /**Set que formatea un valor tipo Date a un string con forma "AAAA-MM-DD HH:MM" */
   set fechaHora(fecha: Date) {
     const hora: string =
       `${fecha.getHours()}`.length > 1

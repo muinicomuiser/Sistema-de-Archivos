@@ -5,7 +5,7 @@ export class Documento {
   rut: string;
   @Column({ name: 'nombre_original' })
   nombreOriginal: string;
-  @PrimaryColumn({ name: 'nombre_asignado' })
+  @Column({ name: 'nombre_asignado' })
   nombreAsignado: string;
   @PrimaryColumn({ name: 'ruta_servidor' })
   rutaServidor: string;

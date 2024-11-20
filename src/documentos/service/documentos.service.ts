@@ -1,18 +1,18 @@
+import { BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common/decorators/core';
 import { InjectRepository } from '@nestjs/typeorm';
+import { promises as FileSystem } from 'fs';
 import { Documento } from 'src/orm/entity/documento.entity';
 import { Like, Repository } from 'typeorm';
-import { promises as FileSystem } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
 import { DocumentoMapper } from '../mapper/documento.mapper';
-import { Injectable } from '@nestjs/common/decorators/core';
-import { BadRequestException } from '@nestjs/common';
 @Injectable()
 export class DocumentosService {
   constructor(
     @InjectRepository(Documento)
     private readonly documentoRepository: Repository<Documento>,
-  ) {}
+  ) { }
 
   async cargarDocumento(
     rut: string,
@@ -107,6 +107,7 @@ export class DocumentosService {
     }
   }
 
+  /**Elimina todos los directorios que queden vacíos después de boorar un documento.*/
   private async eliminarDirectoriosVacios(rutaArchivo: string): Promise<void> {
     let dirArchivoEliminado: string = rutaArchivo.slice(
       0,
@@ -135,6 +136,7 @@ export class DocumentosService {
     }
   }
 
+  /**Retorna un string tipo ruta con formato "AAAA/MM/DD/HH/MM" a partir de un valor tipo Date.*/
   private rutaFecha(fecha: Date): string {
     const hora: string =
       `${fecha.getHours()}`.length > 1
