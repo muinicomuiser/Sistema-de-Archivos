@@ -4,7 +4,7 @@ import { Documento } from 'src/orm/entity/documento.entity';
 import { Like, Repository } from 'typeorm';
 import { promises as FileSystem } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-import { GetDocumentosUsuarioDto } from '../dto/get.documentos.usuario.dto';
+// import { GetDocumentosUsuarioDto } from '../dto/get.documentos.usuario.dto';
 import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
 import { DocumentoMapper } from '../mapper/documento.mapper';
 @Injectable()
@@ -37,14 +37,15 @@ export class DocumentosService {
         return DocumentoMapper.entitiesToDtos(registrados)
     }
 
-    async obtenerRegistrosDocumentos(rutUsuario: string): Promise<GetDocumentosUsuarioDto> {
+    async obtenerRegistrosDocumentos(rutUsuario: string): Promise<GetRegistroDocumentoDto[]> {
         const registros: Documento[] = await this.documentoRepository.find({
             where: {
                 rut: rutUsuario
             }
         })
         const registrosDto: GetRegistroDocumentoDto[] = DocumentoMapper.entitiesToDtos(registros)
-        return new GetDocumentosUsuarioDto(rutUsuario, registrosDto)
+        return registrosDto
+        // return new GetDocumentosUsuarioDto(rutUsuario, registrosDto)
     }
 
     async eliminarPorUuid(uuid: string): Promise<string> {
@@ -56,6 +57,7 @@ export class DocumentosService {
         const rutaArchivo: string = registroDocumento.rutaServidor.replace(`${process.env.RUTA_ESTATICOS_SERVER}`, `${process.env.DIR_ARCHIVOS}`)
         await FileSystem.unlink(`.${rutaArchivo}`)
         await this.eliminarDirectoriosVacios(`.${rutaArchivo}`)
+        await this.documentoRepository.remove(registroDocumento)
         return 'Documento eliminado'
     }
 

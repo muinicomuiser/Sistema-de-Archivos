@@ -5,7 +5,7 @@ export class DocumentoMapper {
     static entityToDto(documento: Documento): GetRegistroDocumentoDto {
         const nuevoDto: GetRegistroDocumentoDto = new GetRegistroDocumentoDto()
         nuevoDto.nombreAsignado = documento.nombreAsignado
-        nuevoDto.fechaHoraCarga = documento.fechaHoraCarga
+        nuevoDto.fechaHora = documento.fechaHoraCarga
         nuevoDto.nombreOriginal = documento.nombreOriginal
         nuevoDto.rutaServidor = documento.rutaServidor
         return nuevoDto
