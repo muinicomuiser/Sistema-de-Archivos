@@ -5,22 +5,23 @@ Uso:
     - Para trabajar en local, llenar la variable de entorno AMBIENTE=desarrollo
 
 Pasos
-    Crear base de datos: 
+    + Crear base de datos: 
         + MySQL 
         + tabla: documentos
         + Crear scripts
-    Armar docker compose:
+    + Armar docker compose:
         + Node
         + Flyway
         + MySQL
-    Cargar binarios:
+    + Cargar binarios:
         Instalé @types/multer
         Instalé uuid
-    Estudiar
+    + Estudiar
     Validar datos
         Considerar pipe para validar mimetypes jpeg y pdf
         Voy a darle la extensión .pdf y .jpeg tomando el segmento del mimetype
-    Documentar Swagger
+        Si el uuid no existe, o si no es válido
+    Documentar Swagger (gets dto)
     Try-catchs
     Errores
     

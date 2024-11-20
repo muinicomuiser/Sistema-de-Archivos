@@ -3,7 +3,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiExtraModels, ApiTags, getSchemaPath } from '@nestjs/swagger';
 import { FormularioFileDto } from '../dto/formulario.file.dto';
 import { DocumentosService } from '../service/documentos.service';
-import { GetDocumentosUsuarioDto } from '../dto/get.documentos.usuario.dto';
+// import { GetDocumentosUsuarioDto } from '../dto/get.documentos.usuario.dto';
 import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
 
 @ApiTags('Documentos')
@@ -11,6 +11,13 @@ import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
 export class DocumentosController {
     constructor(private readonly documentosService: DocumentosService) { }
 
+
+    /**Validar:
+     * Mimetype
+     * Peso
+     * Rut
+     * nombre not empty
+     */
     @ApiConsumes('multipart/form-data')
     @ApiExtraModels(FormularioFileDto)  /**Para configurar el formulario de carga de archivos en swagger */
     @ApiBody({
@@ -36,15 +43,15 @@ export class DocumentosController {
     @Get(':rut_usuario')
     async infoArchivosUsuario(
         @Param('rut_usuario') rutUsuario: string
-    ): Promise<GetDocumentosUsuarioDto> {
-        const infoDocumentos: GetDocumentosUsuarioDto = await this.documentosService.obtenerRegistrosDocumentos(rutUsuario);
+    ): Promise<GetRegistroDocumentoDto[]> {
+        const infoDocumentos: GetRegistroDocumentoDto[] = await this.documentosService.obtenerRegistrosDocumentos(rutUsuario);
         return infoDocumentos
     }
 
 
 
     @Delete(':uuid_archivo')
-    eliminarArchivo(@Param('uuid_archivo') uuidArchivo: string) {
-        return 'Holiwis'
+    async eliminarArchivo(@Param('uuid_archivo') uuidArchivo: string) {
+        return await this.documentosService.eliminarPorUuid(uuidArchivo);
     }
 }
