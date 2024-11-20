@@ -22,6 +22,7 @@ import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
 import { ValidarDocumentoExistePipe } from '../pipe/validar-documento-existe.pipe';
 import { ValidarFormatoRutPipe } from '../pipe/validar-formato-rut.pipe';
 import { DocumentosService } from '../service/documentos.service';
+import { ValidarFilesNoVaciosPipe } from '../pipe/validar-files-no-vacios.pipe';
 
 @ApiTags('Documentos')
 @Controller('documentos')
@@ -53,7 +54,7 @@ export class DocumentosController {
   @UseInterceptors(FilesInterceptor('archivos'))
   async cargarDocumentos(
     @Param('rut_usuario', ValidarFormatoRutPipe) rutUsuario: string,
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFiles(ValidarFilesNoVaciosPipe) files: Express.Multer.File[],
   ): Promise<GetRegistroDocumentoDto[]> {
     const documentoCargado = await this.documentosService.cargarDocumento(
       rutUsuario,

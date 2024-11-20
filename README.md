@@ -1,3 +1,86 @@
+<p align="left">
+  <img src="Arbol.png" width="450" alt="Sistema de Archivos"/>
+</p>
+
+# SISTEMA DE ARCHIVOS
+
+Este proyecto es el desarrollo de la evaluación número 6 (que trata de Sistema de Archivos), del Bootcamp de Backend que imparte la Universidad de Chile.   
+La misión es crear una aplicación que permita cargar archivos, asociarlos a un usuario y registrarlos en una base de datos, consultar archivos de usuarios y eliminar archivos, además de 
+servir archivos estáticos a tavés de rutas.  
+
+## Instalación
+
+1. Clonar el repositorio:
+
+```bash
+git clone https://github.com/muinicomuiser/evaluacion-6.git
+```
+
+2. Instalar las dependencias con uno de los siguientes comandos:
+
+```bash
+npm install
+yarn install
+```
+## Configuración
+
+1. Para trabajar en entorno de desarrollo con __Docker Compose__, se deben llenar en el 
+archivo ___.env___ las siguientes variables de entorno:
+
+    ___.env___  
+    ```
+    - VERSION_NODE
+    - VERSION_MYSQL
+    - VERSION_FLYWAY
+    - AMBIENTE
+    - PORT_API
+    - DB_HOST
+    - DB_PORT
+    - DB_USERNAME
+    - DB_PASSWORD
+    - DB_DATABASE
+    - DIR_ARCHIVOS
+    - RUTA_ESTATICOS_SERVER
+    ```  
+
+2. Para trabajar en entorno de desarrollo de forma local:
+
+    2.1 Llenar un archivo ___.env.desarrollo___ con las siguientes variables de entorno:
+    
+    ___.env.desarrollo___   
+    ```
+    - PUERTO_API
+    - HOST_DB
+    - PUERTO_DB
+    - USUARIO_DB
+    - CONTRASENA_DB
+    - NOMBRE_DB
+    - DIR_ARCHIVOS
+    - RUTA_ESTATICOS_SERVER
+    ```
+  
+    2.2 Llenar la variable de entorno:
+    ```
+    - AMBIENTE=desarrollo
+    ```
+
+
+## Ejecución - Entorno de desarrollo
+
+Para ejecutar el proyecto con __Docker Compose__, usar el
+siguiente comando en la raíz del proyecto:
+
+```bash
+docker compose up -d
+```
+Para ejecutarlo de forma local, usar uno de los siguientes comandos en la raíz del proyecto:
+
+```bash
+npm run start:dev
+yarn start:dev
+```
+
+## Este proyecto usa node.js
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
