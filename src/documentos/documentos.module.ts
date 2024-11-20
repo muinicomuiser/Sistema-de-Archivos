@@ -5,10 +5,8 @@ import { Documento } from 'src/orm/entity/documento.entity';
 import { DocumentosController } from './controller/documentos.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([
-    Documento
-  ])],
+  imports: [TypeOrmModule.forFeature([Documento])],
   controllers: [DocumentosController],
-  providers: [DocumentosService]
+  providers: [DocumentosService],
 })
-export class DocumentosModule { }
+export class DocumentosModule {}
