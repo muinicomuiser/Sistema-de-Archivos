@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Documento } from 'src/orm/entity/documento.entity';
 import { Like, Repository } from 'typeorm';
 import { promises as FileSystem } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-// import { GetDocumentosUsuarioDto } from '../dto/get.documentos.usuario.dto';
 import { GetRegistroDocumentoDto } from '../dto/get.registro.documento.dto';
 import { DocumentoMapper } from '../mapper/documento.mapper';
+import { Injectable } from '@nestjs/common/decorators/core';
+import { BadRequestException } from '@nestjs/common';
 @Injectable()
 export class DocumentosService {
   constructor(
@@ -21,48 +21,62 @@ export class DocumentosService {
     const fecha: Date = new Date();
     const ruta = this.rutaFecha(fecha);
     const registrosDocumentos: Documento[] = [];
-    await FileSystem.mkdir(`./${process.env.DIR_ARCHIVOS}/${ruta}`, {
-      recursive: true,
-    });
-    await Promise.all(
-      files.map(async (file) => {
-        const extension: string = file.originalname.slice(
-          file.originalname.lastIndexOf('.') + 1,
-        );
-        const nuevoUUID: string = uuidv4();
-        await FileSystem.writeFile(
-          `./${process.env.DIR_ARCHIVOS}/${ruta}/${nuevoUUID}.${extension}`,
-          file.buffer,
-        );
+    try {
+      await FileSystem.mkdir(`./${process.env.DIR_ARCHIVOS}/${ruta}`, {
+        recursive: true,
+      });
 
-        const nuevoDocumento: Documento = new Documento()
-          .setRut(rut)
-          .setNombreOriginal(file.originalname)
-          .setNombreAsignado(`${nuevoUUID}.${extension}`)
-          .setRutaServidor(
-            `/${process.env.RUTA_ESTATICOS_SERVER}/${ruta}/${nuevoUUID}.${extension}`,
-          )
-          .setFechaHoraCarga(fecha);
-        registrosDocumentos.push(nuevoDocumento);
-      }),
-    );
-    const registrados: Documento[] =
-      await this.documentoRepository.save(registrosDocumentos);
-    return DocumentoMapper.entitiesToDtos(registrados);
+      await Promise.all(
+        files.map(async (file) => {
+          const extension: string = file.originalname.slice(
+            file.originalname.lastIndexOf('.') + 1,
+          );
+          const nuevoUUID: string = uuidv4();
+          await FileSystem.writeFile(
+            `./${process.env.DIR_ARCHIVOS}/${ruta}/${nuevoUUID}.${extension}`,
+            file.buffer,
+          );
+
+          const nuevoDocumento: Documento = new Documento()
+            .setRut(rut)
+            .setNombreOriginal(file.originalname)
+            .setNombreAsignado(`${nuevoUUID}.${extension}`)
+            .setRutaServidor(
+              `/${process.env.RUTA_ESTATICOS_SERVER}/${ruta}/${nuevoUUID}.${extension}`,
+            )
+            .setFechaHoraCarga(fecha);
+          registrosDocumentos.push(nuevoDocumento);
+        }),
+      );
+    } catch (error) {
+      console.error(error);
+      throw new BadRequestException('Error al guardar los documentos.');
+    }
+    try {
+      const registrados: Documento[] =
+        await this.documentoRepository.save(registrosDocumentos);
+      return DocumentoMapper.entitiesToDtos(registrados);
+    } catch (error) {
+      console.error(error);
+      throw new BadRequestException('Error al registrar un documento');
+    }
   }
 
   async obtenerRegistrosDocumentos(
     rutUsuario: string,
   ): Promise<GetRegistroDocumentoDto[]> {
-    const registros: Documento[] = await this.documentoRepository.find({
-      where: {
-        rut: rutUsuario,
-      },
-    });
-    const registrosDto: GetRegistroDocumentoDto[] =
-      DocumentoMapper.entitiesToDtos(registros);
-    return registrosDto;
-    // return new GetDocumentosUsuarioDto(rutUsuario, registrosDto)
+    try {
+      const registros: Documento[] = await this.documentoRepository.find({
+        where: {
+          rut: rutUsuario,
+        },
+      });
+      const registrosDto: GetRegistroDocumentoDto[] =
+        DocumentoMapper.entitiesToDtos(registros);
+      return registrosDto;
+    } catch (error) {
+      throw new BadRequestException('Error al obtener los registros.');
+    }
   }
 
   async eliminarPorUuid(uuid: string): Promise<string> {
@@ -77,10 +91,20 @@ export class DocumentosService {
       `${process.env.RUTA_ESTATICOS_SERVER}`,
       `${process.env.DIR_ARCHIVOS}`,
     );
-    await FileSystem.unlink(`.${rutaArchivo}`);
-    await this.eliminarDirectoriosVacios(`.${rutaArchivo}`);
-    await this.documentoRepository.remove(registroDocumento);
-    return 'Documento eliminado';
+    try {
+      await FileSystem.unlink(`.${rutaArchivo}`);
+      await this.eliminarDirectoriosVacios(`.${rutaArchivo}`);
+    } catch (error) {
+      console.error(error);
+      throw new BadRequestException('Error al eliminar el documento.');
+    }
+    try {
+      await this.documentoRepository.remove(registroDocumento);
+      return 'Documento eliminado';
+    } catch (error) {
+      console.error(error);
+      throw new BadRequestException('Error al eliminar el registro.');
+    }
   }
 
   private async eliminarDirectoriosVacios(rutaArchivo: string): Promise<void> {
@@ -95,7 +119,12 @@ export class DocumentosService {
         { recursive: true },
       );
       if (contenido.length == 0) {
-        await FileSystem.rm(`${dirArchivoEliminado}`, { recursive: true });
+        try {
+          await FileSystem.rm(`${dirArchivoEliminado}`, { recursive: true });
+        } catch (error) {
+          console.error(error);
+          throw new BadRequestException('Error al eliminar un directorio.');
+        }
         dirArchivoEliminado = dirArchivoEliminado.slice(
           0,
           dirArchivoEliminado.lastIndexOf('/'),

@@ -352,6 +352,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
+"@fdograph/rut-utilities@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@fdograph/rut-utilities/-/rut-utilities-1.4.0.tgz#17bc0dbd993da5a84fc1e830599249b2aef64f47"
+  integrity sha512-M+t9YzoI0QIuLhkovXAIcj14dWqVs6YsbJy3fpASnFgSCkPEkZgZvc+LKJvkB/AkAe3/U8c2hDf4ikw1pajazw==
+
 "@humanwhocodes/config-array@^0.13.0":
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.13.0.tgz#fb907624df3256d04b9aa2df50d7aa97ec648748"
