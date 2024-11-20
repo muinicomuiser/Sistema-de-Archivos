@@ -16,7 +16,14 @@ services:
       - db
     volumes:
       - ./scripts_db:/flyway/sql
-    command: [ '-url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false', '-user=${DB_USERNAME}', '-password=${DB_PASSWORD}', '-connectRetries=60', 'migrate' ]
+    command:
+      [
+        '-url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false',
+        '-user=${DB_USERNAME}',
+        '-password=${DB_PASSWORD}',
+        '-connectRetries=60',
+        'migrate',
+      ]
 
   api:
     image: 'node:${VERSION_NODE}'

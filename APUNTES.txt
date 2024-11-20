@@ -18,8 +18,7 @@ Pasos
         Instalé uuid
     + Estudiar
     Validar datos
-        Considerar pipe para validar mimetypes jpeg y pdf
-        Voy a darle la extensión .pdf y .jpeg tomando el segmento del mimetype
+        Rut, voy a usar la librería @fdograph/rut-utilities
         Si el uuid no existe, o si no es válido
     Documentar Swagger (gets dto)
     Try-catchs
