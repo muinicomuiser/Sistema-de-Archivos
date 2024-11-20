@@ -8,19 +8,19 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
       - MYSQL_DATABASE=${DB_DATABASE}
     ports:
-      - "3312:${DB_PORT}"
+      - '3312:${DB_PORT}'
 
   flyway:
     image: flyway/flyway:${VERSION_FLYWAY}
     depends_on:
       - db
     volumes:
-      - ./sql:/flyway/sql
-    command: [ "-url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false", "-user=${DB_USERNAME}", "-password=${DB_PASSWORD}", "-connectRetries=60", "migrate" ]
+      - ./scripts_db:/flyway/sql
+    command: [ '-url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false', '-user=${DB_USERNAME}', '-password=${DB_PASSWORD}', '-connectRetries=60', 'migrate' ]
 
   api:
-    image: "node:${VERSION_NODE}"
-    command: "yarn start:dev"
+    image: 'node:${VERSION_NODE}'
+    command: 'yarn start:dev'
     working_dir: /home/node/nest
     environment:
       - AMBIENTE=${AMBIENTE}
@@ -34,6 +34,6 @@ services:
       - RUTA_ESTATICOS_SERVER=${RUTA_ESTATICOS_SERVER}
 
     ports:
-      - "3000:${PORT_API}"
+      - '3000:${PORT_API}'
     volumes:
       - .:/home/node/nest
