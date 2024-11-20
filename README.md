@@ -29,18 +29,18 @@ archivo ___.env___ las siguientes variables de entorno:
 
     ___.env___  
     ```
-    - VERSION_NODE
-    - VERSION_MYSQL
-    - VERSION_FLYWAY
-    - AMBIENTE
-    - PORT_API
-    - DB_HOST
-    - DB_PORT
-    - DB_USERNAME
-    - DB_PASSWORD
-    - DB_DATABASE
-    - DIR_ARCHIVOS
-    - RUTA_ESTATICOS_SERVER
+    VERSION_NODE
+    VERSION_MYSQL
+    VERSION_FLYWAY
+    AMBIENTE
+    PORT_API
+    DB_HOST
+    DB_PORT
+    DB_USERNAME
+    DB_PASSWORD
+    DB_DATABASE
+    DIR_ARCHIVOS
+    RUTA_ESTATICOS_SERVER
     ```  
 
 2. Para trabajar en entorno de desarrollo de forma local:
@@ -49,21 +49,21 @@ archivo ___.env___ las siguientes variables de entorno:
     
     ___.env.desarrollo___   
     ```
-    - PUERTO_API
-    - HOST_DB
-    - PUERTO_DB
-    - USUARIO_DB
-    - CONTRASENA_DB
-    - NOMBRE_DB
-    - DIR_ARCHIVOS
-    - RUTA_ESTATICOS_SERVER
+    PUERTO_API
+    HOST_DB
+    PUERTO_DB
+    USUARIO_DB
+    CONTRASENA_DB
+    NOMBRE_DB
+    DIR_ARCHIVOS
+    RUTA_ESTATICOS_SERVER
     ```
   
     2.2 Llenar la variable de entorno:
     ```
-    - AMBIENTE=desarrollo
+    AMBIENTE=desarrollo
     ```
-
+*Nota: las variables "DIR_ARCHIVOS" y "RUTA_ESTATICOS_SERVER" refieren al directorio local donde se almacenarán los archivos y a la ruta para acceder a ellos a través del servidor respectivamente
 
 ## Ejecución - Entorno de desarrollo
 
