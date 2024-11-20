@@ -51,7 +51,7 @@ export class DocumentosController {
 
 
     @Delete(':uuid_archivo')
-    eliminarArchivo(@Param('uuid_archivo') uuidArchivo: string) {
-        return 'Holiwis'
+    async eliminarArchivo(@Param('uuid_archivo') uuidArchivo: string) {
+        return await this.documentosService.eliminarPorUuid(uuidArchivo);
     }
 }

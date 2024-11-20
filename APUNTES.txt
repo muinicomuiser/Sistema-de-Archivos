@@ -20,6 +20,7 @@ Pasos
     Validar datos
         Considerar pipe para validar mimetypes jpeg y pdf
         Voy a darle la extensión .pdf y .jpeg tomando el segmento del mimetype
+        Si el uuid no existe, o si no es válido
     Documentar Swagger (gets dto)
     Try-catchs
     Errores
